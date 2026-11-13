@@ -177,6 +177,48 @@ review. The verification directory must be new. See the
 [wallpaper workflow](skills/generate-dynamic-wallpaper/references/daynight.md)
 for details. Desktop switching still needs to be checked in macOS.
 
+## Wallpaper gallery
+
+The download gallery lives in [`site/`](site/index.html). It is plain HTML and CSS,
+with no browser JavaScript. CSS provides System/Day/Night themes and matching
+featured artwork. Time links jump to the individual frames. Every image links to
+its full-resolution original and has a PNG download; each collection includes a
+dynamic macOS HEIC and an originals ZIP.
+
+After generating, reviewing and verifying a set, copy it into the gallery:
+
+```sh
+python3 scripts/add_wallpaper.py \
+  output/wallpapers/my-scene/daynight.json \
+  output/wallpapers/my-scene/my-scene.heic \
+  --master output/wallpapers/my-scene/master.png \
+  --slug my-scene --title "My scene" \
+  --description "A short description of the scene."
+python3 scripts/check_gallery.py
+python3 -m http.server 4173 --directory site
+```
+
+Open `http://localhost:4173`. Adding a set requires ImageMagick's `magick` for
+lightweight WebP previews. Original PNG and HEIC files are copied unchanged.
+The helper updates `site/catalog.json` and renders `site/index.html` automatically.
+To change the page layout, edit `scripts/templates/gallery.html` and regenerate
+with `python3 scripts/render_gallery.py`. CSS can be edited directly in `site/`.
+Existing slugs are preserved; use a new slug for a new version. The helper copies
+only manifest frames and the final HEIC, leaving local review and failed attempts
+in the ignored `output/` folder. Its checks do not replace visual/HEIC verification.
+
+To publish, select **Settings → Pages → Build and deployment → Source → GitHub
+Actions** in this repository. The [Pages workflow](.github/workflows/pages.yml)
+checks the downloads and deploys `site/` on pushes to `main`, or through a manual
+workflow run on `main`. Pull requests only run checks. The expected project URL is
+`https://thor010111.github.io/daynight/`; it is available only after a successful
+deployment. The workflow follows GitHub's
+[custom Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+Keep the tracked gallery below GitHub Pages' 1 GB site limit. The helper rejects
+individual files and source ZIPs over 95 MiB to stay below GitHub's Git file limit;
+larger collections need separate download hosting.
+
 ## Development
 
 ```sh
@@ -184,6 +226,7 @@ cargo test --locked
 cargo fmt --check
 cargo clippy --locked --all-targets -- -D warnings
 python3 -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
+python3 -m unittest discover -s scripts/tests -v
 ```
 
 The default backend is ImageIO on macOS and libheif on Linux/Windows. The portable

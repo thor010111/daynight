@@ -1,0 +1,92 @@
+[
+  {
+    "id": "japanese-lakeside-cabin",
+    "title": "Japanese lakeside cabin",
+    "description": "A secluded cabin, a still mountain lake, and the slow passage of light. Six illustrated moments, from the hush of midnight to the warmth of sunset.",
+    "width": 1672,
+    "height": 941,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/00.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/night.png",
+          "bytes": 2547020,
+          "sha256": "39aab02ede67db66bc625f589d30496fd5dcc9c915b95fa14fabb99f2ff0b48d"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/01.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/dawn.png",
+          "bytes": 2818343,
+          "sha256": "79f6f6d3f0fd30d1c7562fe1dccc36683503d09d365224b5c07d48901a20be30"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/02.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/morning.png",
+          "bytes": 3083537,
+          "sha256": "ddf68521bd3f718b0b0e56d1b69267a0530d89c33a0885c4870b17fc0029bf42"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/03.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/master.png",
+          "bytes": 3080216,
+          "sha256": "c39d1b7df24bedfd0c5b367d2f7e96a42d9cb2cd7e9ca6f468769c231713240f"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/04.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/sunset.png",
+          "bytes": 2893083,
+          "sha256": "61e867beb59221d0f47f0fa801f2c7fcd076c13e744be14fad2619fe8375ea74"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/japanese-lakeside-cabin/previews/05.webp",
+        "original": {
+          "url": "wallpapers/japanese-lakeside-cabin/originals/blue-hour.png",
+          "bytes": 2668462,
+          "sha256": "6c782a7787deb773311d45928722ccb1769f230581f61ffaa7b3f72f61c76834"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/japanese-lakeside-cabin/japanese-lakeside-cabin.heic",
+      "bytes": 13407779,
+      "sha256": "9e7477455573f400ba2be5e72d86a7f165a0170fca839e6fb4695e26cc630f25"
+    },
+    "sources": {
+      "url": "wallpapers/japanese-lakeside-cabin/japanese-lakeside-cabin-originals.zip",
+      "bytes": 16938390
+    }
+  }
+]

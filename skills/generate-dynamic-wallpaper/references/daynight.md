@@ -89,3 +89,21 @@ In the first run, ImageIO HEIC finalization and PNG preview export failed inside
 ## Deliverables
 
 Link the HEIC, the PNG/manifest directory, `review.html`, and `review.md` (which includes saved prompts). If review or encoding is incomplete, label that explicitly and omit a claim of a finished dynamic wallpaper.
+
+## GitHub Pages gallery
+
+In the daynight checkout, after visual review and HEIC verification pass, copy the accepted deliverables into `site/`:
+
+```sh
+python3 scripts/add_wallpaper.py \
+  output/wallpapers/my-scene/daynight.json \
+  output/wallpapers/my-scene/my-scene.heic \
+  --master output/wallpapers/my-scene/master.png \
+  --slug my-scene --title "My scene" \
+  --description "A short description grounded in the actual scene."
+python3 scripts/check_gallery.py
+```
+
+Run from the repository root. This helper requires ImageMagick's `magick`. It copies the original PNGs and HEIC unchanged, makes a ZIP of the PNGs and schedule, creates smaller WebP previews, adds the scene to `site/catalog.json`, and renders `site/index.html`. The public gallery is plain HTML and CSS with no browser JavaScript. It refuses existing slugs, so choose a new version slug when delivering a replacement. It validates PNG headers and the schedule; it does not certify visual matching or HEIC content. Do those checks before copying. Failed attempts, review aids, prompts and local paths are not published. Files above 95 MiB need a different download-hosting arrangement rather than adding oversized Git objects.
+
+Preview with `python3 -m http.server 4173 --directory site` and open `http://localhost:4173`, or open `site/index.html` directly. Check System/Day/Night themes, time links, original-image previews and downloads. `site/` is the deployable static directory; visitors need no scripts and deployment requires no Node dependencies or build step. After editing `scripts/templates/gallery.html`, regenerate the HTML with `python3 scripts/render_gallery.py`. The repository's Pages workflow publishes it from `main` when GitHub Pages is configured to use GitHub Actions. Do not claim the page is live until deployment succeeds.

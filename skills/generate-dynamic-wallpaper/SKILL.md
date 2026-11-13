@@ -62,4 +62,6 @@ For macOS, follow [references/daynight.md](references/daynight.md): validate the
 
 For other platforms, deliver the accepted PNGs and requested schedule format; do not claim an unsupported native dynamic-wallpaper package exists. If the HEIC encoder is unavailable, deliver the PNGs, manifest, review, and exact packaging command, clearly marking HEIC generation incomplete.
 
+When working in the daynight repository, also copy each finished, reviewed and verified set into its GitHub Pages gallery with `scripts/add_wallpaper.py` at the repository root. Follow the [gallery delivery instructions](references/daynight.md#github-pages-gallery). Keep original downloads unchanged and copy only accepted frames. Updating the local gallery is part of delivery; publishing commits to GitHub requires authorization from the current task.
+
 Return links to the final files and comparison page, actual resolution and frame count, and a short account of visual review and packaging validation. Distinguish successful HEIC encoding from observing real macOS wallpaper switching. Include known limitations and the saved prompt set. Use wording such as “no drift found in the inspected landmarks,” never “guaranteed identical.”
