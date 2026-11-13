@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust targets and tools
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+          rustup default stable
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Check formatting and lint
+        run: |
+          cargo fmt --check
+          cargo clippy --locked --all-targets -- -D warnings
+      - name: Test native HEIC encoding and metadata
+        run: cargo test --locked
+      - name: Test wallpaper helpers
+        run: python3 -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
+      - name: Build universal executables
+        run: |
+          cargo build --release --locked --target aarch64-apple-darwin
+          cargo build --release --locked --target x86_64-apple-darwin
+          mkdir -p output
+          for binary in daynight daynight-exif daynight-inspect; do
+            lipo -create "target/aarch64-apple-darwin/release/$binary" "target/x86_64-apple-darwin/release/$binary" -output "output/$binary"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: daynight
+          path: |
+            output/daynight
+            output/daynight-exif
+            output/daynight-inspect

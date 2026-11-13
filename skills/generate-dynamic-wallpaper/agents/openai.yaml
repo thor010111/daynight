@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dynamic Wallpaper"
+  short_description: "Relight one fixed scene and check visual consistency"
+  default_prompt: "Use $generate-dynamic-wallpaper to turn my scene prompt into a matching time-of-day wallpaper set and a macOS dynamic HEIC."
