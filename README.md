@@ -219,6 +219,20 @@ Keep the tracked gallery below GitHub Pages' 1 GB site limit. The helper rejects
 individual files and source ZIPs over 95 MiB to stay below GitHub's Git file limit;
 larger collections need separate download hosting.
 
+Use `wallpaper: add <scene>` for wallpaper-only commits, for example:
+
+```sh
+git add site/
+git commit -m "wallpaper: add serene desert oasis"
+```
+
+The Build workflow skips pushes and pull requests whose changes are entirely
+inside `site/`. Gallery checks and deployment still run as described above.
+The changed paths control this behavior; the commit message is a naming convention.
+Changes outside `site/`, including code, scripts, skills and workflows, run the
+Build workflow as usual. GitHub's global `[skip ci]` marker also skips the gallery
+workflow, so omit it when publishing wallpapers.
+
 ## Development
 
 ```sh

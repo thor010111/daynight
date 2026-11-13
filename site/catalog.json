@@ -88,5 +88,95 @@
       "url": "wallpapers/japanese-lakeside-cabin/japanese-lakeside-cabin-originals.zip",
       "bytes": 16938390
     }
+  },
+  {
+    "id": "serene-desert-oasis",
+    "title": "Serene desert oasis",
+    "description": "A quiet turquoise oasis encircled by whitewashed buildings and date palms, with desert dunes and a distant mountain ridge. Six lighting states from midnight to blue hour.",
+    "width": 1672,
+    "height": 941,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/serene-desert-oasis/previews/00.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/night.png",
+          "bytes": 2317287,
+          "sha256": "5ac338e4f9f6016b88eaf980abcd383102bda75878b2190d5a6e963178b5a29a"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/serene-desert-oasis/previews/01.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/dawn.png",
+          "bytes": 2590311,
+          "sha256": "d0497b4564ffef5854ea43c1841bf46bcb125474cd9999a8e4d372f04a40da71"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/serene-desert-oasis/previews/02.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/morning.png",
+          "bytes": 3083030,
+          "sha256": "1a121ecd13ed8104d0cb53480fe84c19ead91614ef780c54e969d845def520b8"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/serene-desert-oasis/previews/03.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/master.png",
+          "bytes": 2853017,
+          "sha256": "af24241a3031601baed7e015e690da606153449052de783196cc730ee9ea9bf9"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/serene-desert-oasis/previews/04.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/sunset.png",
+          "bytes": 2806390,
+          "sha256": "f26fa0c6b88cf9fff076dfae626f91e6274a5983f4d003ec63b71151eca7026e"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/serene-desert-oasis/previews/05.webp",
+        "original": {
+          "url": "wallpapers/serene-desert-oasis/originals/blue-hour.png",
+          "bytes": 2589530,
+          "sha256": "75e93ae0cb574e22930ad0c9fd197bc33dbc80f80f21136bcf847ca14781235c"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/serene-desert-oasis/serene-desert-oasis.heic",
+      "bytes": 11157708,
+      "sha256": "4717f01151174027ac962dae0b19a0f878ef9fe682da346d8952b272f7e0ed94"
+    },
+    "sources": {
+      "url": "wallpapers/serene-desert-oasis/serene-desert-oasis-originals.zip",
+      "bytes": 15649326
+    }
   }
 ]
