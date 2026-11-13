@@ -48,7 +48,7 @@ Use a new inspection directory. `comparisons.json` maps every master comparison 
 
 ## Encode
 
-Use an executable built from the current checkout, such as `target/release/daynight`. If the source has changed since the binary was built, or its provenance is uncertain, run `cargo build --release --locked`. An installed compatible `daynight` can also be used, with the primary-first manifest convention above for older versions. Building requires macOS and Rust and the Xcode Command Line Tools. Do not install global packages or copy binaries into system directories merely to package a wallpaper.
+Use an executable built from the current checkout, such as `target/release/daynight`. If the source has changed since the binary was built, or its provenance is uncertain, run `cargo build --release --locked`. An installed compatible `daynight` can also be used, with the primary-first manifest convention above for older versions. Building requires Rust and the native platform dependencies documented in the repository README: ImageIO on macOS, or libheif with HEVC encoding/decoding on Linux and Windows. Do not install global packages or copy binaries into system directories merely to package a wallpaper.
 
 Run from the output folder, substituting the actual executable path:
 
@@ -61,7 +61,7 @@ Use fresh output filenames. Input image paths are relative to the manifest; rela
 
 ## Verify the package
 
-The bundled verifier uses Python 3, the Rust `daynight-inspect` binary and macOS ImageIO; it needs no third-party Python packages. It reads the HEIC directly, decodes every encoded image, and compares count, dimensions, time fractions and primary/Light/Dark indices with the supplied manifest. It supports the time-based schema only.
+The bundled verifier uses Python 3, the Rust `daynight-inspect` binary and the platform image backend; it needs no third-party Python packages. It runs on macOS, Linux, and Windows and reads the HEIC directly, decodes every encoded image, and compares count, dimensions, time fractions and primary/Light/Dark indices with the supplied manifest. It supports the time-based schema only.
 
 ```sh
 python3 /path/to/skill/scripts/verify_wallpaper.py \

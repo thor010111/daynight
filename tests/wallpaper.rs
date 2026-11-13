@@ -136,6 +136,7 @@ fn native_heic_roundtrip_all_modes_and_extraction_failures() {
         let p = pictures(mode);
         let plan = Plan::new(&p).unwrap();
         let output = dir.0.join(format!("{mode}.heic"));
+        std::fs::write(&output, b"old destination").unwrap();
         daynight::native::generate(&plan, &dir.0, &output).unwrap();
         if mode == "h24" {
             let inspection = dir.0.join("inspection");
@@ -233,4 +234,131 @@ fn exif_preserves_fractional_coordinates_hemispheres_and_timezone() {
         &Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/frame.png")
     )
     .is_err());
+}
+
+// Exercise both independently implemented backends in each direction. In
+// particular, ImageIO must see the same frame indices and plist in libheif files.
+#[cfg(all(target_os = "macos", feature = "portable"))]
+#[test]
+fn libheif_and_imageio_exchange_wallpapers_without_metadata_or_frame_order_drift() {
+    use daynight::native::{macos, portable};
+    let dir = Dir::new();
+    for (name, color) in [
+        ("dawn.png", [255, 0, 0, 255]),
+        ("night.png", [0, 0, 255, 255]),
+        ("noon.png", [0, 255, 0, 255]),
+    ] {
+        image::RgbaImage::from_pixel(256, 256, image::Rgba(color))
+            .save(dir.0.join(name))
+            .unwrap();
+    }
+    for mode in ["h24", "solar", "apr"] {
+        let p = pictures(mode);
+        let plan = Plan::new(&p).unwrap();
+        for (name, generate, tags, inspect) in [
+            (
+                "portable",
+                portable::generate as fn(&Plan<'_>, &Path, &Path) -> anyhow::Result<()>,
+                macos::tags as fn(&Path) -> anyhow::Result<Vec<(String, String)>>,
+                macos::inspect as fn(&Path, &Path) -> anyhow::Result<()>,
+            ),
+            (
+                "imageio",
+                macos::generate,
+                portable::tags,
+                portable::inspect,
+            ),
+        ] {
+            let output = dir.0.join(format!("{name}-{mode}.heic"));
+            // Both backends must replace an existing destination on success.
+            std::fs::write(&output, b"old file").unwrap();
+            generate(&plan, &dir.0, &output).unwrap();
+            let metadata = tags(&output).unwrap();
+            let encoded = metadata
+                .iter()
+                .find(|(k, _)| k == &format!("apple_desktop:{mode}"))
+                .unwrap();
+            assert_eq!(
+                daynight::metadata::decode(&encoded.1).unwrap(),
+                plan.payload
+            );
+            if mode == "h24" {
+                let evidence = dir.0.join(name);
+                std::fs::create_dir(&evidence).unwrap();
+                inspect(&output, &evidence).unwrap();
+                let report: serde_json::Value = serde_json::from_slice(
+                    &std::fs::read(evidence.join("container.json")).unwrap(),
+                )
+                .unwrap();
+                assert_eq!(report["count"], 3);
+                assert_eq!(report["primaryIndex"], 0);
+                assert_eq!(report["metadata"]["ap"]["d"], 2);
+                for (preview, channel) in [("primary.png", 1), ("light.png", 1), ("dark.png", 2)] {
+                    let pixel = image::open(evidence.join(preview))
+                        .unwrap()
+                        .to_rgb8()
+                        .get_pixel(16, 16)
+                        .0;
+                    assert!(pixel[channel] > 240, "{name}/{preview}: {pixel:?}");
+                    for (index, value) in pixel.into_iter().enumerate() {
+                        if index != channel {
+                            assert!(value < 15);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn cli_generates_and_extracts_with_unicode_paths() {
+    let root = Dir::new();
+    let directory = root.0.join("Grüße 日本語");
+    std::fs::create_dir(&directory).unwrap();
+    for name in ["täg.png", "nücht.png"] {
+        std::fs::copy(
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/frame.png"),
+            directory.join(name),
+        )
+        .unwrap();
+    }
+    let manifest = directory.join("zeit.json");
+    std::fs::write(
+        &manifest,
+        serde_json::to_vec(&serde_json::json!([
+            {"fileName": "täg.png", "isPrimary": true, "isForLight": true, "time": "12:00:00"},
+            {"fileName": "nücht.png", "isForDark": true, "time": "00:00:00"}
+        ]))
+        .unwrap(),
+    )
+    .unwrap();
+    let output = directory.join("nächt.heic");
+    let plist = directory.join("métadata.plist");
+    for args in [
+        vec![
+            std::ffi::OsStr::new("-i"),
+            manifest.as_os_str(),
+            std::ffi::OsStr::new("-o"),
+            output.as_os_str(),
+        ],
+        vec![
+            std::ffi::OsStr::new("-e"),
+            output.as_os_str(),
+            std::ffi::OsStr::new("-o"),
+            plist.as_os_str(),
+        ],
+    ] {
+        let result = std::process::Command::new(env!("CARGO_BIN_EXE_daynight"))
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(
+            result.status.success(),
+            "{}",
+            String::from_utf8_lossy(&result.stderr)
+        );
+    }
+    let schedule: Sequence = plist::from_bytes(&std::fs::read(plist).unwrap()).unwrap();
+    assert_eq!(schedule.ap.unwrap(), Appearance { l: 0, d: 1 });
 }

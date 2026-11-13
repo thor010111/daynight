@@ -5,35 +5,103 @@ on:
   pull_request:
 
 jobs:
-  build:
-    runs-on: macos-latest
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rust targets and tools
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Rust tools
         run: |
           rustup toolchain install stable --profile minimal --component rustfmt --component clippy
           rustup default stable
-          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Install Linux codecs
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libheif-dev libheif-plugin-x265 libheif-plugin-libde265
+      - name: Install macOS interoperability codecs
+        if: runner.os == 'macOS'
+        run: brew install libheif
+      - name: Install Windows codecs
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $root = $env:VCPKG_INSTALLATION_ROOT
+          & "$root/vcpkg.exe" install "libheif[core,hevc,libde265]:x64-windows"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "VCPKG_ROOT=$root" >> $env:GITHUB_ENV
+          "VCPKGRS_TRIPLET=x64-windows" >> $env:GITHUB_ENV
+          "VCPKGRS_DYNAMIC=1" >> $env:GITHUB_ENV
+          "$root/installed/x64-windows/bin" >> $env:GITHUB_PATH
+          if (Test-Path "$root/installed/x64-windows/plugins/libheif") {
+            "LIBHEIF_PLUGIN_PATH=$root/installed/x64-windows/plugins/libheif" >> $env:GITHUB_ENV
+          }
       - name: Check formatting and lint
         run: |
           cargo fmt --check
-          cargo clippy --locked --all-targets -- -D warnings
-      - name: Test native HEIC encoding and metadata
-        run: cargo test --locked
+          cargo clippy --locked --all-targets --all-features -- -D warnings
+      - name: Test codecs, metadata, EXIF, and CLI
+        run: cargo test --locked --all-features
       - name: Test wallpaper helpers
-        run: python3 -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
-      - name: Build universal executables
+        run: python -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
+      - name: Build Linux and Windows executables
+        if: runner.os != 'macOS'
+        run: cargo build --release --locked
+      - name: Package Linux executables
+        if: runner.os == 'Linux'
         run: |
+          mkdir -p output
+          cp target/release/daynight target/release/daynight-exif target/release/daynight-inspect output/
+          cp README.md LICENSE.md output/
+      - name: Package Windows executables and runtime libraries
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force output/licenses | Out-Null
+          Copy-Item target/release/daynight.exe,target/release/daynight-exif.exe,target/release/daynight-inspect.exe output/
+          Copy-Item "$env:VCPKG_ROOT/installed/x64-windows/bin/*.dll" output/
+          Copy-Item README.md,LICENSE.md output/
+          if (Test-Path "$env:VCPKG_ROOT/installed/x64-windows/plugins/libheif") {
+            Copy-Item "$env:VCPKG_ROOT/installed/x64-windows/plugins/libheif" output/plugins -Recurse
+          }
+          Get-ChildItem "$env:VCPKG_ROOT/installed/x64-windows/share" -Filter copyright -Recurse | ForEach-Object {
+            Copy-Item $_.FullName "output/licenses/$($_.Directory.Name).txt"
+          }
+      - name: Build universal macOS executables
+        if: runner.os == 'macOS'
+        run: |
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
           cargo build --release --locked --target aarch64-apple-darwin
           cargo build --release --locked --target x86_64-apple-darwin
           mkdir -p output
           for binary in daynight daynight-exif daynight-inspect; do
             lipo -create "target/aarch64-apple-darwin/release/$binary" "target/x86_64-apple-darwin/release/$binary" -output "output/$binary"
           done
+          cp README.md LICENSE.md output/
+      - name: Test packaged tools and Python verification
+        env:
+          DAYNIGHT_BIN_DIR: ${{ github.workspace }}/output
+        run: python skills/generate-dynamic-wallpaper/tests/test_helpers.py HelperTests.test_packaged_verification_workflow -v
       - uses: actions/upload-artifact@v4
         with:
-          name: daynight
-          path: |
-            output/daynight
-            output/daynight-exif
-            output/daynight-inspect
+          name: daynight-${{ runner.os }}
+          path: output/
+
+  minimum-rust:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libheif-dev libheif-plugin-x265 libheif-plugin-libde265
+      - name: Check Rust 1.85 compatibility
+        run: |
+          rustup toolchain install 1.85.0 --profile minimal
+          cargo +1.85.0 check --locked --all-targets

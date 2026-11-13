@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Verify a time-based HEIC against its PNG manifest using macOS ImageIO.
+"""Verify a time-based HEIC against its PNG manifest using daynight-inspect.
 
 Exports primary/Light/Dark previews for manual inspection. Does not certify
-visual fidelity or test desktop switching. Requires macOS and the Rust daynight-inspect executable.
+visual fidelity or test desktop switching. Requires the Rust daynight-inspect executable.
 """
 
 import argparse
@@ -10,7 +10,6 @@ import hashlib
 import json
 import math
 from pathlib import Path
-import platform
 import re
 import shutil
 import subprocess
@@ -70,10 +69,11 @@ def main():
         heic = args.heic.resolve()
         if not heic.is_file() or heic.stat().st_size == 0:
             raise ValueError("HEIC is missing or empty.")
-        bundled = Path(__file__).resolve().parents[3] / "target/release/daynight-inspect"
+        executable = "daynight-inspect.exe" if sys.platform == "win32" else "daynight-inspect"
+        bundled = Path(__file__).resolve().parents[3] / "target" / "release" / executable
         inspector = args.inspector or (bundled if bundled.is_file() else shutil.which("daynight-inspect"))
-        if platform.system() != "Darwin" or not inspector:
-            raise ValueError("HEIC verification requires macOS and daynight-inspect (cargo build --release --locked).")
+        if not inspector:
+            raise ValueError("HEIC verification requires daynight-inspect (cargo build --release --locked).")
         output = args.output.resolve()
         output.mkdir(parents=True, exist_ok=False)
         subprocess.run([str(inspector), str(heic), str(output)],

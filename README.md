@@ -1,8 +1,10 @@
 # daynight
 
-Create dynamic macOS wallpapers from your own images. Written in Rust, daynight
-packages images into a HEIC file with Apple's desktop metadata, so the
+Create dynamic macOS wallpapers on **macOS, Linux, or Windows**. Written in Rust,
+daynight packages images into a HEIC file with Apple's desktop metadata, so the
 wallpaper can change with the time of day, the sun's position, or Light/Dark appearance.
+All three platforms can create and inspect these files. Automatic desktop switching
+on Linux and Windows is outside the scope of these tools.
 
 The project includes three command-line tools:
 
@@ -12,11 +14,49 @@ The project includes three command-line tools:
 
 ## Requirements
 
-- macOS: HEIC encoding uses Apple's system ImageIO framework.
-- Rust 1.85 or newer and Cargo.
-- Xcode Command Line Tools for the macOS SDK and linker.
+Rust 1.85 or newer and Cargo are required on every platform.
 
-No Swift compiler or third-party image codec is required.
+### macOS
+
+Install Xcode Command Line Tools for the macOS SDK and linker. The default build
+uses Apple's ImageIO framework and requires no third-party image codec.
+
+### Linux
+
+Install `pkg-config`, libheif **1.17 or newer**, an HEVC encoder (such as x265), and
+an HEVC decoder (such as libde265). On Ubuntu 24.04:
+
+```sh
+sudo apt-get update
+sudo apt-get install pkg-config libheif-dev libheif-plugin-x265 libheif-plugin-libde265
+```
+
+Package names differ across distributions. A libheif build with AVIF support alone
+cannot create HEIC wallpapers; the HEVC encoder must be installed and discoverable.
+
+### Windows
+
+Use the MSVC Rust toolchain with Visual Studio C++ Build Tools and
+[vcpkg](https://github.com/microsoft/vcpkg). From Developer PowerShell, with
+`VCPKG_ROOT` pointing to your vcpkg installation:
+
+```powershell
+& "$env:VCPKG_ROOT/vcpkg.exe" install "libheif[core,hevc,libde265]:x64-windows"
+$env:VCPKGRS_TRIPLET = "x64-windows"
+$env:VCPKGRS_DYNAMIC = "1"
+$env:PATH = "$env:VCPKG_ROOT/installed/x64-windows/bin;$env:PATH"
+# For vcpkg versions that build codecs as separate plugins:
+if (Test-Path "$env:VCPKG_ROOT/installed/x64-windows/plugins/libheif") {
+  $env:LIBHEIF_PLUGIN_PATH = "$env:VCPKG_ROOT/installed/x64-windows/plugins/libheif"
+}
+cargo build --release --locked
+```
+
+Keep libheif and its codec DLLs on `PATH` or beside the executables when running
+them. The Windows CI artifact includes these DLLs, codec plugins when present,
+and their license notices. Keep its `plugins/` directory beside the executables.
+Native libraries and codecs retain their own licenses, separate from this
+repository's MIT license.
 
 ## Build
 
@@ -25,7 +65,8 @@ cargo build --release --locked
 ```
 
 The executables are in `target/release/`. Use them directly or copy them into a
-directory on your `PATH`.
+directory on your `PATH`. Windows executables have the `.exe` suffix.
+CI produces Linux and Windows artifacts and universal macOS binaries.
 
 ## Create your first wallpaper
 
@@ -145,10 +186,28 @@ cargo clippy --locked --all-targets -- -D warnings
 python3 -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
 ```
 
-Native HEIC tests require access to macOS image encoding services, which may be
-restricted inside sandboxes. The encoder avoids intermediate TIFF conversion,
-uses a hash map for image indices, and writes into a temporary directory before
-replacing the destination after successful encoding.
+The default backend is ImageIO on macOS and libheif on Linux/Windows. The portable
+backend accepts PNG, JPEG, TIFF, WebP, BMP, and libheif-readable HEIC/HEIF inputs,
+normalizes photo orientation, preserves embedded ICC profiles, and decodes previews.
+It reads GPS coordinates and capture times from EXIF in JPEG, PNG, TIFF, WebP, and
+HEIF files. The CLI and Apple `solar`, `h24`, and `apr` plist formats are shared.
+
+On macOS, install libheif to run the portable backend and interoperability tests:
+
+```sh
+brew install libheif
+cargo test --locked --all-features
+```
+
+`--features portable` selects libheif on macOS too; Linux and Windows select it
+automatically. Interoperability tests check all three wallpaper modes in both
+directions between ImageIO and libheif, including frame order and preview colors.
+Native ImageIO tests need macOS image-service access, which sandboxes may restrict.
+
+Images are indexed through a hash map and decoded one at a time. Outputs replace
+the destination only after successful encoding. On Unix, libheif writes directly
+to a temporary file. On Windows, its encoded output is buffered and written through
+Rust file IO so Unicode paths work. Neither backend changes desktop settings.
 
 ## Credits and license
 

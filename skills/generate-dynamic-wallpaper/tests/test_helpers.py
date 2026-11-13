@@ -1,9 +1,11 @@
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import struct
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -45,6 +47,28 @@ class HelperTests(unittest.TestCase):
             "metadata": {"ap": {"l": 2, "d": 1},
                          "ti": [{"i": 2, "t": 0.375}, {"i": 0, "t": 0.5}, {"i": 1, "t": 0.0}]},
         }
+
+    @unittest.skipUnless(os.environ.get("DAYNIGHT_BIN_DIR"), "Set DAYNIGHT_BIN_DIR to test built executables")
+    def test_packaged_verification_workflow(self):
+        binaries = Path(os.environ["DAYNIGHT_BIN_DIR"]).resolve()
+        suffix = ".exe" if sys.platform == "win32" else ""
+        for index, entry in enumerate(self.entries):
+            write_png(self.root / entry["fileName"], width=256, height=256,
+                      color=(index * 70, 80, 120))
+        heic = self.root / "wallpaper.heic"
+        subprocess.run([str(binaries / ("daynight" + suffix)), "-i", str(self.manifest),
+                        "-o", str(heic)], check=True, capture_output=True, text=True)
+        evidence = self.root / "verification"
+        verifier = Path(__file__).resolve().parents[1] / "scripts/verify_wallpaper.py"
+        subprocess.run([sys.executable, str(verifier), str(self.manifest), str(heic),
+                        "--master", str(self.root / "master.png"), "--expected-size", "256x256",
+                        "--output", str(evidence), "--inspector",
+                        str(binaries / ("daynight-inspect" + suffix))],
+                       check=True, capture_output=True, text=True)
+        report = json.loads((evidence / "verification.json").read_text())
+        self.assertEqual(report["technicalValidation"], "pass")
+        self.assertEqual(report["container"]["count"], 3)
+        self.assertEqual(report["container"]["metadata"]["ap"], {"l": 2, "d": 1})
 
     def test_maps_appearance_to_primary_first_encoded_order(self):
         self.assertEqual(self.expected["encodedOrder"], ["master.png", "night.png", "morning.png"])

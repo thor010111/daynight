@@ -1,6 +1,4 @@
-//! Dynamic wallpaper schedules and native macOS ImageIO encoding.
-#[cfg(not(target_os = "macos"))]
-compile_error!("daynight requires macOS and Apple's ImageIO HEIC encoder");
+//! Dynamic wallpaper schedules with ImageIO and portable libheif backends.
 
 pub mod metadata;
 pub mod native;
