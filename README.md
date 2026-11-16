@@ -195,8 +195,8 @@ for details. Desktop switching still needs to be checked in macOS.
 The download gallery lives in [`site/`](site/index.html). It is plain HTML and CSS,
 with no browser JavaScript. CSS provides System/Day/Night themes and matching
 featured artwork. Time links jump to the individual frames. Every image links to
-its full-resolution original and has a PNG download; each collection includes a
-dynamic macOS HEIC and an originals ZIP.
+its full-resolution download; new collections use JPEGs. Each collection includes a
+dynamic macOS HEIC. ZIP archives are omitted to keep the site small.
 
 After generating, reviewing and verifying a set, copy it into the gallery:
 
@@ -212,7 +212,12 @@ python3 -m http.server 4173 --directory site
 ```
 
 Open `http://localhost:4173`. Adding a set requires ImageMagick's `magick` for
-lightweight WebP previews. Original PNG and HEIC files are copied unchanged.
+lightweight WebP previews and full-resolution JPEG downloads at quality 95.
+Accepted PNGs remain unchanged locally; the HEIC is copied unchanged.
+If the provider returned JPEGs, prefer those files without recompression: put them
+in a directory with names matching the accepted frames (`master.jpg`, `night.jpg`,
+and so on) and pass `--jpeg-originals /path/to/provider-jpegs`. The helper verifies
+that each JPEG decodes to the accepted PNG's pixels before copying it.
 The helper updates `site/catalog.json` and renders `site/index.html` automatically.
 To change the page layout, edit `scripts/templates/gallery.html` and regenerate
 with `python3 scripts/render_gallery.py`. CSS can be edited directly in `site/`.
@@ -229,7 +234,7 @@ deployment. The workflow follows GitHub's
 [custom Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 
 Keep the tracked gallery below GitHub Pages' 1 GB site limit. The helper rejects
-individual files and source ZIPs over 95 MiB to stay below GitHub's Git file limit;
+individual files over 95 MiB to stay below GitHub's Git file limit;
 larger collections need separate download hosting.
 
 Use `wallpaper: add <scene>` for wallpaper-only commits, for example:

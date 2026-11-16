@@ -5,7 +5,6 @@ import argparse
 import hashlib
 from pathlib import Path
 import sys
-import zipfile
 
 from add_wallpaper import read_catalog
 from render_gallery import render_page
@@ -51,8 +50,8 @@ def check(site):
         if scene["id"] in seen:
             raise ValueError(f"Duplicate scene: {scene['id']}")
         seen.add(scene["id"])
-        files = [scene["heic"], scene["sources"]]
-        downloads = [scene["heic"]["url"], scene["sources"]["url"]]
+        files = [scene["heic"]]
+        downloads = [scene["heic"]["url"]]
         for frame in scene["frames"]:
             files.extend([frame["original"], {"url": frame["preview"]}])
             downloads.append(frame["original"]["url"])
@@ -68,14 +67,7 @@ def check(site):
                 raise ValueError(f"Size mismatch: {file['url']}")
             if "sha256" in file and hashlib.sha256(path.read_bytes()).hexdigest() != file["sha256"]:
                 raise ValueError(f"Original download changed: {file['url']}")
-        with zipfile.ZipFile(site / scene["sources"]["url"]) as archive:
-            if archive.testzip() is not None:
-                raise ValueError(f"Corrupt source archive: {scene['id']}")
-            for frame in scene["frames"]:
-                name = Path(frame["original"]["url"]).name
-                if hashlib.sha256(archive.read(name)).hexdigest() != frame["original"]["sha256"]:
-                    raise ValueError(f"Archive image changed: {name}")
-    print(f"Gallery checked: {len(scenes)} sets, {sum(len(scene['frames']) for scene in scenes)} frames. Downloads, previews and source ZIPs are intact.")
+    print(f"Gallery checked: {len(scenes)} sets, {sum(len(scene['frames']) for scene in scenes)} frames. Downloads and previews are intact.")
 
 
 if __name__ == "__main__":
@@ -83,6 +75,6 @@ if __name__ == "__main__":
     parser.add_argument("site", nargs="?", type=Path, default=Path(__file__).resolve().parents[1] / "site")
     try:
         check(parser.parse_args().site)
-    except (OSError, ValueError, KeyError, zipfile.BadZipFile) as error:
+    except (OSError, ValueError, KeyError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         sys.exit(1)

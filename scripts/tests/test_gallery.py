@@ -6,7 +6,6 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
-import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -27,7 +26,7 @@ class StaticPageTests(unittest.TestCase):
         links = PageLinks()
         links.feed(page)
         for scene in scenes:
-            for file in [scene["heic"], scene["sources"], *[frame["original"] for frame in scene["frames"]]]:
+            for file in [scene["heic"], *[frame["original"] for frame in scene["frames"]]]:
                 self.assertIn(file["url"], links.downloads)
         self.assertFalse(links.anchors - links.targets)
 
@@ -58,27 +57,51 @@ class GalleryTests(unittest.TestCase):
         self.heic.write_bytes(b"test package copied without encoding")
         (self.root / "failed.png").write_bytes(b"never publish this")
 
-    def export(self, slug="test-scene"):
+    def export(self, slug="test-scene", jpeg_originals=None):
         return add_wallpaper(self.manifest, self.heic, self.master, self.site, slug,
-                             "Test scene", "A description.")
+                             "Test scene", "A description.", jpeg_originals)
 
-    def test_delivery_preserves_sources_and_adds_working_preview_and_archive(self):
+    def test_delivery_exports_jpegs_without_archives_and_preserves_heic(self):
         scene = self.export()
         self.assertEqual([frame["time"] for frame in scene["frames"]], ["00:00:00", "12:00:00"])
         self.assertEqual((self.site / scene["heic"]["url"]).read_bytes(), self.heic.read_bytes())
         for frame in scene["frames"]:
             original = self.site / frame["original"]["url"]
-            self.assertEqual(original.read_bytes(), (self.root / original.name).read_bytes())
+            self.assertEqual(original.suffix, ".jpg")
+            self.assertTrue(original.read_bytes().startswith(b"\xff\xd8"))
+            dimensions = subprocess.run([shutil.which("magick"), "identify", "-format", "%wx%h", str(original)],
+                                        check=True, capture_output=True, text=True).stdout
+            self.assertEqual(dimensions, "9x7")
             self.assertTrue((self.site / frame["preview"]).is_file())
-        with zipfile.ZipFile(self.site / scene["sources"]["url"]) as archive:
-            self.assertEqual(set(archive.namelist()), {"master.png", "night.png", "daynight.json"})
-            self.assertEqual(archive.read("master.png"), self.master.read_bytes())
+        self.assertNotIn("sources", scene)
+        self.assertFalse(list(self.site.rglob("*.zip")))
+        self.assertNotIn(".zip", (self.site / "index.html").read_text())
+        self.assertTrue(self.master.read_bytes().startswith(b"\x89PNG"))
+        self.assertIn("JPG <svg", (self.site / "index.html").read_text())
         self.assertFalse(list(self.site.rglob("failed.png")))
         check(self.site)
         original = self.site / scene["frames"][0]["original"]["url"]
         original.write_bytes(original.read_bytes()[:-1] + b"x")
         with self.assertRaisesRegex(ValueError, "Original download changed"):
             check(self.site)
+
+    def test_provider_jpegs_are_reused_without_reencoding_and_mismatches_rejected(self):
+        jpeg_originals = self.root / "provider"
+        jpeg_originals.mkdir()
+        for source in (self.master, self.night):
+            jpeg = jpeg_originals / source.with_suffix(".jpg").name
+            subprocess.run([shutil.which("magick"), str(source), str(jpeg)], check=True)
+            subprocess.run([shutil.which("magick"), str(jpeg), str(source)], check=True)
+        scene = self.export(jpeg_originals=jpeg_originals)
+        for frame in scene["frames"]:
+            original = self.site / frame["original"]["url"]
+            self.assertEqual(original.read_bytes(), (jpeg_originals / original.name).read_bytes())
+        check(self.site)
+        shutil.copyfile(jpeg_originals / "master.jpg", jpeg_originals / "night.jpg")
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.export("mismatched-scene", jpeg_originals=jpeg_originals)
+        self.assertFalse((self.site / "wallpapers/mismatched-scene").exists())
+        self.assertFalse(list((self.site / "wallpapers").glob(".wallpaper-*")))
 
     def test_new_set_appends_and_existing_downloads_are_never_replaced(self):
         self.export()

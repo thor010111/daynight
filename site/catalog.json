@@ -83,10 +83,92 @@
       "url": "wallpapers/japanese-lakeside-cabin/japanese-lakeside-cabin.heic",
       "bytes": 53211139,
       "sha256": "d0b0fa758faa80fad009b8738fa03decdd071310bc474323c82d170e54595477"
-    },
-    "sources": {
-      "url": "wallpapers/japanese-lakeside-cabin/japanese-lakeside-cabin-originals.zip",
-      "bytes": 68461751
+    }
+  },
+  {
+    "id": "winter-alpine-village-nano-banana-native-20261116",
+    "title": "Winter alpine village",
+    "description": "Snow-covered chalets, a stone church, and towering Alpine peaks. Six moments of winter light, from moonlit lanes to the warmth of sunset.",
+    "width": 5504,
+    "height": 3072,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/00.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/night.jpg",
+          "bytes": 9174298,
+          "sha256": "285e570917042f0936bb948f23a0ef5a51a0510fffb7b9849ace75961db867a1"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/01.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/dawn.jpg",
+          "bytes": 8934851,
+          "sha256": "4eb68453140dd141d8ef3171b5a318c3fca762fb57bd3bf149f6a1bded44b1dc"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/02.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/morning.jpg",
+          "bytes": 8995101,
+          "sha256": "0599e48d3d933ce831e1b5463754ad98ae3c947c1a53909264965e826c3e215c"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/03.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/master.jpg",
+          "bytes": 9053026,
+          "sha256": "09ef461336bf855d8d11cc5614aa04fa7553f5c5d984e2653257aef61a4867d8"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/04.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/sunset.jpg",
+          "bytes": 9339171,
+          "sha256": "e9faaf2dc8ec0b288a7402f17776238b9600ab8c5e14f9bc406300d52dcfcc15"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-alpine-village-nano-banana-native-20261116/previews/05.webp",
+        "original": {
+          "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/originals/blue-hour.jpg",
+          "bytes": 9167596,
+          "sha256": "3717dd579fc3a2bae2708cc66bb19a05194531338528e7f7e384285db11cb6d3"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/winter-alpine-village-nano-banana-native-20261116/winter-alpine-village-nano-banana-native-20261116.heic",
+      "bytes": 82140063,
+      "sha256": "63b70e9328d7afc068c5a87a9544fe3e46f3d7a5e114a9593258b73f1e188bfa"
     }
   }
 ]

@@ -66,15 +66,15 @@ def render_collection(scene):
                    f'width="{width}" height="{height}" loading="lazy" decoding="async">'
                    '<span class="preview-hint" aria-hidden="true">↗</span>')
         image = link(frame["original"], preview, "frame-preview", download=False)
-        download = link(frame["original"], f'PNG {DOWNLOAD_ICON}', "frame-download")
+        extension = frame["original"]["url"].rsplit(".", 1)[-1].upper()
+        download = link(frame["original"], f'{escape(extension)} {DOWNLOAD_ICON}', "frame-download")
         cards.append(f'''<article class="frame-card" id="{slug}-frame-{index}">
           {image}
           <div class="frame-bottom"><h4 class="frame-name">{label}<span class="frame-time">{escape(frame["time"][:5])}</span></h4>{download}</div>
         </article>''')
-    sources = link(scene["sources"], 'All originals · ZIP <span aria-hidden="true">↓</span>', 'text-link source-link')
     heic = link(scene["heic"], 'Download dynamic wallpaper <span aria-hidden="true">↓</span>')
     return f'''<section class="collection-block" aria-labelledby="{slug}-title">
-        <div class="collection-top"><div><h3 id="{slug}-title">{title}</h3><p>{len(scene["frames"])} moments · {width} × {height} · AI illustrated</p></div>{sources}</div>
+        <div class="collection-top"><div><h3 id="{slug}-title">{title}</h3><p>{len(scene["frames"])} moments · {width} × {height} · AI illustrated</p></div></div>
         <div class="frame-grid">{''.join(cards)}</div>
         <div class="collection-download">{heic}<span>macOS · HEIC · {size(scene["heic"])}</span></div>
       </section>'''

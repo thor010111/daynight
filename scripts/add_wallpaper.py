@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Copy a finished, reviewed time-based wallpaper into the GitHub Pages gallery.
 
-Requires ImageMagick for browser previews. Original downloads are copied unchanged.
+Requires ImageMagick for JPEG downloads and browser previews. HEIC is copied unchanged.
 This is a delivery step, not a substitute for visual review or HEIC verification.
 """
 
@@ -14,7 +14,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / ".agents/skills/generate-dynamic-wallpaper/scripts"))
@@ -29,7 +28,7 @@ def phase(frame):
     return Path(frame["fileName"]).stem.replace("-", " ").replace("_", " ").capitalize()
 
 
-def add_wallpaper(manifest, heic, master, site, slug, title, description):
+def add_wallpaper(manifest, heic, master, site, slug, title, description, jpeg_originals=None):
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
         raise ValueError("Slug must contain lowercase letters, numbers and single hyphens.")
     if not title.strip() or not description.strip():
@@ -42,9 +41,8 @@ def add_wallpaper(manifest, heic, master, site, slug, title, description):
         raise ValueError("Provide a nonempty, verified .heic package.")
     # GitHub rejects individual Git files above 100 MiB. Leave headroom.
     max_file = 95 * 1024 * 1024
-    for source in [heic, *[Path(frame["path"]) for frame in result["frames"]]]:
-        if source.stat().st_size > max_file:
-            raise ValueError(f"{source.name} is too large for this Git-backed gallery (95 MiB limit).")
+    if heic.stat().st_size > max_file:
+        raise ValueError(f"{heic.name} is too large for this Git-backed gallery (95 MiB limit).")
     site.mkdir(parents=True, exist_ok=True)
     catalog = read_catalog(site)
     destination = site / "wallpapers" / slug
@@ -64,31 +62,35 @@ def add_wallpaper(manifest, heic, master, site, slug, title, description):
         previews.mkdir()
         for index, frame in enumerate(sorted(result["frames"], key=lambda entry: entry["time"])):
             source = Path(frame["path"])
-            name = frame["fileName"]
-            shutil.copyfile(source, originals / name)
+            source_name = frame["fileName"]
+            name = source.with_suffix(".jpg").name
+            original = originals / name
+            if jpeg_originals is not None:
+                jpeg = jpeg_originals / name
+                # Only reuse JPEGs that decode to the accepted frame, including its dimensions.
+                subprocess.run([magick, "compare", "-metric", "AE", str(source),
+                                f"jpeg:{jpeg}", "null:"], check=True, capture_output=True, text=True)
+                shutil.copyfile(jpeg, original)
+            else:
+                subprocess.run([magick, str(source), "-quality", "95", str(original)],
+                               check=True, capture_output=True, text=True)
+            if original.stat().st_size > max_file:
+                raise ValueError(f"{name} is too large for this Git-backed gallery (95 MiB limit).")
             preview = f"{index:02d}.webp"
             subprocess.run([magick, str(source), "-resize", "1600x1600>", "-quality", "85",
                             str(previews / preview)], check=True, capture_output=True, text=True)
             scene["frames"].append({"label": phase(frame), "time": frame["time"],
-                                    "light": bool(flags[name].get("isForLight")),
-                                    "dark": bool(flags[name].get("isForDark")),
+                                    "light": bool(flags[source_name].get("isForLight")),
+                                    "dark": bool(flags[source_name].get("isForDark")),
                                     "preview": f"{prefix}/previews/{preview}",
                                     "original": {"url": f"{prefix}/originals/{name}",
-                                                 "bytes": source.stat().st_size,
-                                                 "sha256": frame["sha256"]}})
+                                                 "bytes": original.stat().st_size,
+                                                 "sha256": hashlib.sha256(original.read_bytes()).hexdigest()}})
         package = stage / f"{slug}.heic"
         shutil.copyfile(heic, package)
         scene["heic"] = {"url": f"{prefix}/{package.name}", "bytes": package.stat().st_size,
                          "sha256": hashlib.sha256(package.read_bytes()).hexdigest()}
-        sources = stage / f"{slug}-originals.zip"
-        with zipfile.ZipFile(sources, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-            for frame in result["frames"]:
-                archive.write(frame["path"], frame["fileName"])
-            archive.write(manifest, "daynight.json")
-        if sources.stat().st_size > max_file:
-            raise ValueError("Source ZIP exceeds 95 MiB; this set needs external download hosting.")
-        scene["sources"] = {"url": f"{prefix}/{sources.name}", "bytes": sources.stat().st_size}
-        # Move only after every copy/preview/archive succeeds. Never copy failed attempts or review artifacts.
+        # Move only after every copy/preview succeeds. Never copy failed attempts or review artifacts.
         catalog.append(scene)
         page = render_page(catalog)
         stage.rename(destination)
@@ -115,11 +117,14 @@ def main():
     parser.add_argument("--slug", required=True)
     parser.add_argument("--title", required=True)
     parser.add_argument("--description", required=True)
+    parser.add_argument("--jpeg-originals", type=Path,
+                        help="Reuse provider JPEGs named after the accepted PNGs (e.g. master.jpg); decoded pixels must match.")
     parser.add_argument("--site", type=Path, default=ROOT / "site")
     args = parser.parse_args()
     try:
         scene = add_wallpaper(args.manifest.resolve(), args.heic.resolve(), args.master.resolve(),
-                              args.site.resolve(), args.slug, args.title, args.description)
+                              args.site.resolve(), args.slug, args.title, args.description,
+                              args.jpeg_originals.resolve() if args.jpeg_originals else None)
         print(f"Added {scene['title']}: {len(scene['frames'])} frames, {scene['width']}x{scene['height']}")
         print(f"Gallery: {args.site.resolve() / 'index.html'}")
         return 0
