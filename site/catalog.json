@@ -268,5 +268,95 @@
       "url": "wallpapers/alpine-meadow-20261116/alpine-meadow-20261116-originals.zip",
       "bytes": 16680186
     }
+  },
+  {
+    "id": "christmas-manhattan-20261116",
+    "title": "Christmas in Manhattan",
+    "description": "A snowy Manhattan plaza with a decorated Christmas tree, warm garlands and an Art Deco skyline, from dawn through night.",
+    "width": 1672,
+    "height": 941,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/00.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/night.png",
+          "bytes": 3163047,
+          "sha256": "cd7f3e972be0ec2f7cbd39c3daa70a3b8a02ee8a0bf3919e93beeb657c7ed5da"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/01.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/dawn.png",
+          "bytes": 2969330,
+          "sha256": "ea2445a4b46a4d1095fc8434c7572e800de70ad80c1cedba7489cd13859a23c8"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/02.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/morning.png",
+          "bytes": 3153464,
+          "sha256": "8bb2aa523937e6edcc7532fd5b017a9edacca0c208dd9dd56839110af5990272"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/03.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/master.png",
+          "bytes": 3383284,
+          "sha256": "f8c131c7449c47706cedd3b48f4d24c330f5cae4510fba941725aa307420cf91"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/04.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/sunset.png",
+          "bytes": 3195856,
+          "sha256": "c0c445d35682ff8fa1b92dd6bad6d0a542345aec15be49971fcb9dccf4101619"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/christmas-manhattan-20261116/previews/05.webp",
+        "original": {
+          "url": "wallpapers/christmas-manhattan-20261116/originals/blue-hour.png",
+          "bytes": 3002358,
+          "sha256": "b51c461536d794835543011b78340445464d7237967a244da5710c435c662036"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/christmas-manhattan-20261116/christmas-manhattan-20261116.heic",
+      "bytes": 13918736,
+      "sha256": "58d6caecf11a9da690e0ddd6ef738124b79650dbb42910cdee5611c7bec06bf1"
+    },
+    "sources": {
+      "url": "wallpapers/christmas-manhattan-20261116/christmas-manhattan-20261116-originals.zip",
+      "bytes": 18660082
+    }
   }
 ]
