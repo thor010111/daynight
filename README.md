@@ -160,32 +160,18 @@ are interpreted in the system timezone.
 
 Run `daynight --help` or `daynight-exif --help` for command options.
 
-## Upscale generated wallpaper frames
+## Generate native 4K wallpaper frames
 
-The [wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/SKILL.md) targets
-3840 × 2160 by default. When image generation returns a smaller native canvas,
-complete and review all relighting at that native size, then enlarge the whole set
-with Real-ESRGAN before HEIC packaging. An explicit native-resolution request skips
-this step.
+The [wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/SKILL.md) uses
+`sourceful/riverflow-v2.6-pro` through OpenRouter for the master and every relighting
+edit. It requests native 3840 × 2160 PNGs by default, checks the returned dimensions,
+and requires visual review before HEIC packaging. Smaller images fail the native
+resolution requirement; this workflow does not upscale them.
 
-With an existing `realesrgan-ncnn-vulkan` executable, its `realesrgan-x4plus` model,
-and ImageMagick's `magick`:
-
-```sh
-python3 .agents/skills/generate-dynamic-wallpaper/scripts/upscale_wallpaper.py \
-  output/wallpapers/my-scene/daynight.json \
-  --master output/wallpapers/my-scene/master.png \
-  --output output/wallpapers/my-scene-4k \
-  --expected-size 3840x2160 \
-  --realesrgan /path/to/realesrgan-ncnn-vulkan --models /path/to/models
-```
-
-The helper uses the same model and sizing for every frame, keeps source PNGs
-unchanged, preserves the schedule and appearance flags, and records provenance in
-`upscale.json`. The output directory must be new. Review the enlarged frames and
-transitions, then encode and verify the HEIC using the new `daynight.json`.
-See [upscaling details](.agents/skills/generate-dynamic-wallpaper/references/upscaling.md)
-for tool setup, settings, GPU access and visual checks.
+Keep `OPENROUTER_API_KEY` in the repository-root `.env` or export it in the environment. See the
+[OpenRouter reference](.agents/skills/generate-dynamic-wallpaper/references/openrouter.md)
+for exact-size requests, original-master references, response decoding, and the
+4.5 MB request-size limit.
 
 ## Verify a wallpaper
 

@@ -118,3 +118,6 @@ $RECYCLE.BIN/
 output/
 __pycache__/
 *.pyc
+
+# Ignore environment files
+.env
