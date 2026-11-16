@@ -178,5 +178,95 @@
       "url": "wallpapers/serene-desert-oasis/serene-desert-oasis-originals.zip",
       "bytes": 15649326
     }
+  },
+  {
+    "id": "alpine-meadow-20261116",
+    "title": "Alpine Meadow",
+    "description": "Summer meadow, scattered wildflowers and weathered rocks beneath forested foothills and rugged Alpine peaks, from dawn to midnight.",
+    "width": 1672,
+    "height": 941,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/00.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/night.png",
+          "bytes": 2559036,
+          "sha256": "1472889520d0de1e58ee881c9a10bcba6b980422580955a6f74617c44b4530e1"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/01.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/dawn.png",
+          "bytes": 2855637,
+          "sha256": "675f8aa14dc3ede1c8f0fecc43c788be6a7fc730768a6356414172b5da84cd9f"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/02.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/morning.png",
+          "bytes": 3117315,
+          "sha256": "6725683f67df9bf014d6ccb45f3092b3d1de18aecac3a2a87a7d3e765f3ba786"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/03.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/master.png",
+          "bytes": 3236537,
+          "sha256": "7082118bc26b0c57b29451b4656cefa077ca56e923b51d5f5a6e9b634ba7a2fb"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/04.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/sunset.png",
+          "bytes": 2983680,
+          "sha256": "87c6df5fd165049f131714851d8ffa02ec5748ac91d36a1e74083ccebc1be190"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/alpine-meadow-20261116/previews/05.webp",
+        "original": {
+          "url": "wallpapers/alpine-meadow-20261116/originals/blue-hour.png",
+          "bytes": 2663731,
+          "sha256": "c4ef72b8855149168bee7dc0747b0927d28c7c6ebd59496f61dc274d733d21e1"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/alpine-meadow-20261116/alpine-meadow-20261116.heic",
+      "bytes": 11956548,
+      "sha256": "a8185fdec19e241eab41f37f8ef3db935a321fee78d2cb949e396e4619f96cf5"
+    },
+    "sources": {
+      "url": "wallpapers/alpine-meadow-20261116/alpine-meadow-20261116-originals.zip",
+      "bytes": 16680186
+    }
   }
 ]
