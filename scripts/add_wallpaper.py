@@ -17,7 +17,7 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills/generate-dynamic-wallpaper/scripts"))
+sys.path.insert(0, str(ROOT / ".agents/skills/generate-dynamic-wallpaper/scripts"))
 from review_wallpaper import inspect_set
 from render_gallery import read_catalog, render_page
 

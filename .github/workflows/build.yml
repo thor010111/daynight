@@ -53,7 +53,7 @@ jobs:
       - name: Test codecs, metadata, EXIF, and CLI
         run: cargo test --locked --all-features
       - name: Test wallpaper helpers
-        run: python -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
+        run: python -m unittest discover -s .agents/skills/generate-dynamic-wallpaper/tests -v
       - name: Build Linux and Windows executables
         if: runner.os != 'macOS'
         run: cargo build --release --locked
@@ -91,7 +91,7 @@ jobs:
       - name: Test packaged tools and Python verification
         env:
           DAYNIGHT_BIN_DIR: ${{ github.workspace }}/output
-        run: python skills/generate-dynamic-wallpaper/tests/test_helpers.py HelperTests.test_packaged_verification_workflow -v
+        run: python .agents/skills/generate-dynamic-wallpaper/tests/test_helpers.py HelperTests.test_packaged_verification_workflow -v
       - uses: actions/upload-artifact@v4
         with:
           name: daynight-${{ runner.os }}

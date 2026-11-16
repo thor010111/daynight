@@ -70,7 +70,7 @@ def main():
         if not heic.is_file() or heic.stat().st_size == 0:
             raise ValueError("HEIC is missing or empty.")
         executable = "daynight-inspect.exe" if sys.platform == "win32" else "daynight-inspect"
-        bundled = Path(__file__).resolve().parents[3] / "target" / "release" / executable
+        bundled = Path(__file__).resolve().parents[4] / "target" / "release" / executable
         inspector = args.inspector or (bundled if bundled.is_file() else shutil.which("daynight-inspect"))
         if not inspector:
             raise ValueError("HEIC verification requires daynight-inspect (cargo build --release --locked).")

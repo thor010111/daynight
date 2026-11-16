@@ -10,7 +10,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "skills/generate-dynamic-wallpaper/tests"))
+sys.path.insert(0, str(ROOT / ".agents/skills/generate-dynamic-wallpaper/tests"))
 from add_wallpaper import add_wallpaper, read_catalog
 from check_gallery import check
 from check_gallery import PageLinks

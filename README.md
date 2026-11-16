@@ -166,7 +166,7 @@ The bundled Python wrapper checks a time-based wallpaper against its manifest,
 including frame count, dimensions, schedule, and primary/Light/Dark indices:
 
 ```sh
-python3 skills/generate-dynamic-wallpaper/scripts/verify_wallpaper.py \
+python3 .agents/skills/generate-dynamic-wallpaper/scripts/verify_wallpaper.py \
   /path/to/daynight.json /path/to/wallpaper.heic \
   --master /path/to/day.png --expected-size 3840x2160 \
   --output /path/to/new-verification-directory
@@ -174,7 +174,7 @@ python3 skills/generate-dynamic-wallpaper/scripts/verify_wallpaper.py \
 
 It uses the release build of `daynight-inspect` and exports previews for visual
 review. The verification directory must be new. See the
-[wallpaper workflow](skills/generate-dynamic-wallpaper/references/daynight.md)
+[wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/references/daynight.md)
 for details. Desktop switching still needs to be checked in macOS.
 
 ## Wallpaper gallery
@@ -239,7 +239,7 @@ workflow, so omit it when publishing wallpapers.
 cargo test --locked
 cargo fmt --check
 cargo clippy --locked --all-targets -- -D warnings
-python3 -m unittest discover -s skills/generate-dynamic-wallpaper/tests -v
+python3 -m unittest discover -s .agents/skills/generate-dynamic-wallpaper/tests -v
 python3 -m unittest discover -s scripts/tests -v
 ```
 
