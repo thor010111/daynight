@@ -30,7 +30,9 @@ generating native detail. Requested adjustments: [user's changes, or none].
 Scene: [user's prompt, preserving requested subjects and style].
 Canvas: [native 4K landscape preset, approximately 16:9; or exact supported user-requested dimensions].
 Camera and composition: [one fixed viewpoint and framing suitable for the scene].
-Lighting: clear daytime light with readable detail and coherent shadows.
+Lighting: clear daytime light with readable detail; sun from [planned camera-relative
+direction and elevation], casting shadows toward [direction] with [relative length].
+Lighting landmarks: [at least two visible objects/faces and their expected lighting].
 This image will be the immutable source for time-of-day relighting edits.
 Use a still scene, with stable silhouettes and detailed, consistent materials.
 No panel grid, contact sheet, border, watermark, or time-of-day labels.
@@ -60,6 +62,11 @@ Fixed scene:
 Change only the illumination to [time of day]:
 [exposure, sky color, light direction, shadow direction/length/softness,
 ambient light, and emission from existing fixtures, grounded in the scene plan].
+Lighting landmarks: [named objects/faces and coordinates; expected cast-shadow
+direction/length and illuminated/shaded faces at this phase].
+Recompute cast shadows and surface illumination for this sun position. Preserve
+the objects that cast shadows, but change their shadows where the plan requires it;
+changing only colour temperature or exposure does not satisfy this edit.
 Keep weather, cloud layout, season, and environmental geometry unchanged.
 [Rules for visible sun/moon/stars, if part of the plan.]
 Reflections and existing lights must respond plausibly to the new illumination
@@ -81,7 +88,7 @@ Example lighting progression (adapt to the scene and user's schedule):
 | Blue hour | Sun below horizon; blue ambient sky; existing lamps may illuminate |
 | Night | Dim natural ambient light; existing fixtures visible; readable silhouettes |
 
-The exact sun path depends on scene orientation and location. These descriptions are artistic defaults, not computed solar coordinates. Avoid mutually inconsistent shadow directions or a new moon in every frame.
+The exact sun path depends on scene orientation, location and season. These descriptions are artistic defaults, not computed solar coordinates. Define camera-relative directions before generation rather than automatically requiring a left/right reversal. Verify the master's actual light direction and inspect the named lighting landmarks across morning, noon and sunset; prompt wording and warmer colours do not establish sun-path correctness. Avoid mutually inconsistent shadow directions or a new moon in every frame.
 
 ## Targeted retry
 
