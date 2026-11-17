@@ -44,7 +44,7 @@ python3 /path/to/skill/scripts/review_wallpaper.py \
   --export-overlays /path/to/output/inspection --tile-size 1024
 ```
 
-Use a new inspection directory. `comparisons.json` maps every master comparison and chronological neighboring-time pair (including last-to-first) to its full-frame 50% overlay and native-size tiles. Identical pairs reuse their exported images. Tiles cover all edges, including partial tiles for odd dimensions; no resampling is performed. Source PNGs are never changed. Open each original frame, full overlay and tiles, in small batches, and record the visual result separately. Export success is not a visual pass. If ImageMagick is unavailable, use the browser or other available image-inspection tools; no global installation is required by this skill.
+Use a new inspection directory. `comparisons.json` maps every master comparison and chronological neighboring-time pair (including last-to-first) to its full-frame 50% overlay and native-size tiles. Identical pairs reuse their exported images. Tiles cover all edges, including partial tiles for odd dimensions; no resampling is performed. Source PNGs are never changed. Open each original frame and full overlay at a representative desktop scale, then inspect selected native-size tiles covering corners and detailed landmarks to diagnose differences. Apply the skill's “no distracting drift at normal desktop size” standard; tiny differences visible only in native-size crops are not automatic failures. Record the review scale, inspected regions and accepted minor drift separately. Export success is not a visual pass. If ImageMagick is unavailable, use the browser or other available image-inspection tools; no global installation is required by this skill.
 
 ## Encode
 

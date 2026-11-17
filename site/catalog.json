@@ -170,5 +170,91 @@
       "bytes": 82140063,
       "sha256": "63b70e9328d7afc068c5a87a9544fe3e46f3d7a5e114a9593258b73f1e188bfa"
     }
+  },
+  {
+    "id": "sheltered-oasis",
+    "title": "Sheltered Oasis",
+    "description": "White adobe homes and flowering gardens shelter a turquoise spring in an endless desert, from first light to a moonlit night.",
+    "width": 5504,
+    "height": 3072,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/sheltered-oasis/previews/00.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/night.jpg",
+          "bytes": 8507095,
+          "sha256": "6cf91ce1024d283c5d1a24430c8b6b31f7bac204a7482f3b5c3084cb2da80513"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/sheltered-oasis/previews/01.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/dawn.jpg",
+          "bytes": 8617562,
+          "sha256": "6c4116df2c90fb851ea2a1083faf3ff1f0eafc821a2c7c33afc3d61456c17d3e"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/sheltered-oasis/previews/02.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/morning.jpg",
+          "bytes": 9418710,
+          "sha256": "bc2e19d5a24fdda0a005ccb298469afe449c51e80139036eece0f870108a8615"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/sheltered-oasis/previews/03.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/master.jpg",
+          "bytes": 9053475,
+          "sha256": "7cfc97b5c3906816f9229e6503d99601c0b8b682470321d8785a714cfe1a8a4b"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/sheltered-oasis/previews/04.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/sunset.jpg",
+          "bytes": 9410697,
+          "sha256": "0ebd027ef4e0f011784585c8f7d6ccffa105f9ffad33da8129b4c37956780e05"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/sheltered-oasis/previews/05.webp",
+        "original": {
+          "url": "wallpapers/sheltered-oasis/originals/blue-hour.jpg",
+          "bytes": 8491729,
+          "sha256": "8483f748293d7f13ffac89a8c9f980192ea827e29eefbd41e9992501551e4997"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/sheltered-oasis/sheltered-oasis.heic",
+      "bytes": 83414555,
+      "sha256": "09ef989c47f1742fbfec67606752d5fe50c9239367e5c61373455aecd5cf60a6"
+    }
   }
 ]
