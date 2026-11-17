@@ -7,7 +7,7 @@ Replace bracketed fields with the user's scene and observations. The master imag
 ```text
 Create one full-frame desktop wallpaper.
 Scene: [user's prompt, preserving requested subjects and style].
-Canvas: [requested width] × [requested height], [aspect ratio].
+Canvas: [native 4K landscape preset, approximately 16:9; or exact supported user-requested dimensions].
 Camera and composition: [one fixed viewpoint and framing suitable for the scene].
 Lighting: clear daytime light with readable detail and coherent shadows.
 This image will be the immutable source for time-of-day relighting edits.

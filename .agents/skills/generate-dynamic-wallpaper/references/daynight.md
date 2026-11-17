@@ -23,12 +23,12 @@ Do not mix `time` with `altitude`/`azimuth`. For explicitly requested solar mode
 
 ## Comparison page
 
-Run with Python 3; no third-party Python packages are needed. Replace the example paths with actual absolute paths; resolve the script relative to the installed skill, not the current working directory.
+Run with Python 3; no third-party Python packages are needed. Replace the example paths with actual absolute paths and `WIDTHxHEIGHT` with the locked native master dimensions. Resolve the script relative to the installed skill, not the current working directory.
 
 ```sh
 python3 /path/to/skill/scripts/review_wallpaper.py \
   /path/to/output/daynight.json --master /path/to/output/master.png \
-  --expected-size 3840x2160
+  --expected-size WIDTHxHEIGHT
 ```
 
 Set `--expected-size` to the agreed output dimensions; do not simply copy an undersized master's dimensions. The helper rejects missing files, invalid/duplicate clock times, ambiguous appearance flags, reused frame paths, and different PNG dimensions. It records file hashes and creates `review.html` next to the manifest, with side-by-side thumbnails, an overlay, user-controlled blink, and native-size inspection. Open that file in a browser. It reads PNG headers, not decoded pixel content: check that every image actually renders. Its success is not a visual pass or permission to package.
@@ -40,7 +40,7 @@ When browser interaction is unavailable, export inspection aids using an install
 ```sh
 python3 /path/to/skill/scripts/review_wallpaper.py \
   /path/to/output/daynight.json --master /path/to/output/master.png \
-  --expected-size 3840x2160 --output /path/to/output/review-offline.html \
+  --expected-size WIDTHxHEIGHT --output /path/to/output/review-offline.html \
   --export-overlays /path/to/output/inspection --tile-size 1024
 ```
 
@@ -66,7 +66,7 @@ The bundled verifier uses Python 3, the Rust `daynight-inspect` binary and the p
 ```sh
 python3 /path/to/skill/scripts/verify_wallpaper.py \
   /path/to/output/daynight.json /path/to/output/wallpaper.heic \
-  --master /path/to/output/master.png --expected-size 3840x2160 \
+  --master /path/to/output/master.png --expected-size WIDTHxHEIGHT \
   --output /path/to/output/heic-check
 ```
 

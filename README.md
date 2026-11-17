@@ -163,15 +163,18 @@ Run `daynight --help` or `daynight-exif --help` for command options.
 ## Generate native 4K wallpaper frames
 
 The [wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/SKILL.md) uses
-`sourceful/riverflow-v2.6-pro` through OpenRouter for the master and every relighting
-edit. It requests native 3840 × 2160 PNGs by default, checks the returned dimensions,
+Nano Banana Pro (`google/gemini-3-pro-image`) through OpenRouter for the master,
+every relighting edit, and every retry. It requests the native 4K landscape preset,
+measures the master and requires every edit to match its pixel dimensions,
 and requires visual review before HEIC packaging. Smaller images fail the native
 resolution requirement; this workflow does not upscale them.
 
 Keep `OPENROUTER_API_KEY` in the repository-root `.env` or export it in the environment. See the
 [OpenRouter reference](.agents/skills/generate-dynamic-wallpaper/references/openrouter.md)
-for exact-size requests, original-master references, response decoding, and the
-4.5 MB request-size limit.
+for supported resolution settings, original-master references, response decoding,
+and transport constraints. Exact pixel dimensions require endpoint support; the
+4K preset does not guarantee 3840 × 2160. Provider JPEGs are preserved and decoded
+to PNG without resizing for local review and packaging.
 
 ## Verify a wallpaper
 
@@ -181,10 +184,11 @@ including frame count, dimensions, schedule, and primary/Light/Dark indices:
 ```sh
 python3 .agents/skills/generate-dynamic-wallpaper/scripts/verify_wallpaper.py \
   /path/to/daynight.json /path/to/wallpaper.heic \
-  --master /path/to/day.png --expected-size 3840x2160 \
+  --master /path/to/day.png --expected-size WIDTHxHEIGHT \
   --output /path/to/new-verification-directory
 ```
 
+Replace `WIDTHxHEIGHT` with the measured native master dimensions.
 It uses the release build of `daynight-inspect` and exports previews for visual
 review. The verification directory must be new. See the
 [wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/references/daynight.md)

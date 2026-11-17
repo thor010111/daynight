@@ -1,4 +1,4 @@
 interface:
   display_name: "Dynamic Wallpaper"
-  short_description: "Native 4K Riverflow wallpapers through OpenRouter"
-  default_prompt: "Use $generate-dynamic-wallpaper to create a native 4K time-of-day wallpaper set with sourceful/riverflow-v2.6-pro through OpenRouter and package a macOS dynamic HEIC."
+  short_description: "Native 4K Nano Banana Pro wallpapers through OpenRouter"
+  default_prompt: "Use $generate-dynamic-wallpaper to create a native 4K time-of-day wallpaper set with Nano Banana Pro (google/gemini-3-pro-image) through OpenRouter and package a macOS dynamic HEIC."
