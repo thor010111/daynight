@@ -342,5 +342,91 @@
       "bytes": 88448868,
       "sha256": "e54bb2f9fedfce32cd8c529655cc41e1d053c1dd827166302c0ecd979557a616"
     }
+  },
+  {
+    "id": "canal-neighborhood",
+    "title": "Canal Neighborhood",
+    "description": "A hand-painted Japanese canal neighborhood with a red footbridge, flower-lined stone banks, and shop windows that glow after dark.",
+    "width": 5504,
+    "height": 3072,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/canal-neighborhood/previews/00.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/night.jpg",
+          "bytes": 9560054,
+          "sha256": "595a11248b1947f55235dabb5d7c58465f6c5711d19b1cc3a6a37a5f004916be"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/canal-neighborhood/previews/01.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/dawn.jpg",
+          "bytes": 9856358,
+          "sha256": "17cd8113b5d5a5d59579d5041ab3837432fe24d0da146d98c609455b66bcce85"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/canal-neighborhood/previews/02.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/morning.jpg",
+          "bytes": 10382034,
+          "sha256": "e8faa089e75364ae16e45f93bb3cbe21bb6fe82ece8df3e3a769edc3eac5174e"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/canal-neighborhood/previews/03.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/master.jpg",
+          "bytes": 10711906,
+          "sha256": "ad323ec54580e19092d3dad4c8bdcf3985ccb730fec4025a6ca5ecd4e11ea962"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/canal-neighborhood/previews/04.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/sunset.jpg",
+          "bytes": 10152582,
+          "sha256": "ff03ba56d58c0bc497f7e4e8082b0052175140f86c3f378aeb53a4220bb571dc"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/canal-neighborhood/previews/05.webp",
+        "original": {
+          "url": "wallpapers/canal-neighborhood/originals/blue-hour.jpg",
+          "bytes": 10139680,
+          "sha256": "19282286f3911a4d570cd37164eca702f680a778f38cb14220ff036f3436031d"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/canal-neighborhood/canal-neighborhood.heic",
+      "bytes": 92891083,
+      "sha256": "d8bebe213489b8addaff4cb3042a8e6a0b918d39c8397c9d4683261e2d8cfdf4"
+    }
   }
 ]
