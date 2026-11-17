@@ -1,11 +1,32 @@
 # Prompts for one fixed scene
 
-Replace bracketed fields with the user's scene and observations. The master image is the visual authority; the written scene description is not a substitute for providing it to the editing tool.
+Replace bracketed fields with the user's scene and observations. Explore three small concepts first; after selection and native 4K generation, the master image is the visual authority for relighting. The written scene description is not a substitute for providing the relevant image to the editing tool.
+
+## Three initial concepts
+
+Use this template for three separate `1K` requests, each with a distinct direction. Keep the user's required subjects, style, and final aspect ratio consistent. Change composition, viewpoint, or permitted visual treatment enough to make the choice useful; keep comparable daytime lighting.
+
+```text
+Create one full-frame desktop wallpaper concept.
+Scene: [user's prompt, preserving requested subjects and style].
+Canvas: [native 1K preset, intended final aspect ratio].
+Direction [1, 2, or 3]: [distinct composition, viewpoint, or permitted treatment].
+Lighting: clear daytime light with readable detail and coherent shadows.
+Use a still scene suitable for later time-of-day relighting.
+No panel grid, contact sheet, border, watermark, or labels.
+[Any user-specific constraints, including space for desktop icons if requested.]
+```
+
+Present all three and obtain the user's selection before using the master template.
 
 ## Master
 
+Supply the selected concept as the image reference. Include any requested adjustments in the prompt; request `4K` through the API rather than inheriting the concept's pixel dimensions.
+
 ```text
-Create one full-frame desktop wallpaper.
+Create one native 4K full-frame desktop wallpaper using the provided selected concept.
+Preserve its chosen composition, viewpoint, subjects, and visual treatment while
+generating native detail. Requested adjustments: [user's changes, or none].
 Scene: [user's prompt, preserving requested subjects and style].
 Canvas: [native 4K landscape preset, approximately 16:9; or exact supported user-requested dimensions].
 Camera and composition: [one fixed viewpoint and framing suitable for the scene].

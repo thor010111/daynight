@@ -163,11 +163,13 @@ Run `daynight --help` or `daynight-exif --help` for command options.
 ## Generate native 4K wallpaper frames
 
 The [wallpaper workflow](.agents/skills/generate-dynamic-wallpaper/SKILL.md) uses
-Nano Banana Pro (`google/gemini-3-pro-image`) through OpenRouter for the master,
-every relighting edit, and every retry. It requests the native 4K landscape preset,
-measures the master and requires every edit to match its pixel dimensions,
-and requires visual review before HEIC packaging. Smaller images fail the native
-resolution requirement; this workflow does not upscale them.
+Nano Banana Pro (`google/gemini-3-pro-image`) through OpenRouter for three initial
+1K concept images, the master, every relighting edit, and every retry. It presents
+the three directions with a recommendation and waits for your selection before
+generating a native 4K master using the selected concept as a reference. It then
+measures the master and requires every relighting edit to match its pixel dimensions,
+with visual review before HEIC packaging. The smaller concepts are for choosing a
+direction; final images must meet the native 4K requirement without local upscaling.
 
 Keep `OPENROUTER_API_KEY` in the repository-root `.env` or export it in the environment. See the
 [OpenRouter reference](.agents/skills/generate-dynamic-wallpaper/references/openrouter.md)

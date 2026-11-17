@@ -1,4 +1,4 @@
 interface:
   display_name: "Dynamic Wallpaper"
-  short_description: "Native 4K Nano Banana Pro wallpapers through OpenRouter"
-  default_prompt: "Use $generate-dynamic-wallpaper to create a native 4K time-of-day wallpaper set with Nano Banana Pro (google/gemini-3-pro-image) through OpenRouter and package a macOS dynamic HEIC."
+  short_description: "Choose from three concepts, then create a 4K wallpaper set"
+  default_prompt: "Use $generate-dynamic-wallpaper to generate three smaller 1K concepts with Nano Banana Pro (google/gemini-3-pro-image) through OpenRouter, show them with a recommendation, and wait for my selection before creating a native 4K time-of-day wallpaper set and packaging a macOS dynamic HEIC."
