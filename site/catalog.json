@@ -256,5 +256,91 @@
       "bytes": 83414555,
       "sha256": "09ef989c47f1742fbfec67606752d5fe50c9239367e5c61373455aecd5cf60a6"
     }
+  },
+  {
+    "id": "winter-christmas-cabin",
+    "title": "Winter Christmas Cabin",
+    "description": "A snowy log cabin and a natural evergreen with warm Christmas lights reflect in a still alpine pond through six times of day.",
+    "width": 5504,
+    "height": 3072,
+    "frames": [
+      {
+        "label": "Night",
+        "time": "00:00:00",
+        "light": false,
+        "dark": true,
+        "preview": "wallpapers/winter-christmas-cabin/previews/00.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/night.jpg",
+          "bytes": 8658810,
+          "sha256": "48197d4aacc9db5e47f1ae8058e0bbe8fe930141d973846dea7c44d090d2edbb"
+        }
+      },
+      {
+        "label": "Dawn",
+        "time": "06:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-christmas-cabin/previews/01.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/dawn.jpg",
+          "bytes": 9511274,
+          "sha256": "81b109aab8f9efb007a52f17cb53281553ebd5e5ad0218560a64a1f1358874c7"
+        }
+      },
+      {
+        "label": "Morning",
+        "time": "09:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-christmas-cabin/previews/02.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/morning.jpg",
+          "bytes": 9919796,
+          "sha256": "bebb55da1b74afd32bce776647ba1514335797a52b5c5cd00a61532d50e7f617"
+        }
+      },
+      {
+        "label": "Noon",
+        "time": "12:00:00",
+        "light": true,
+        "dark": false,
+        "preview": "wallpapers/winter-christmas-cabin/previews/03.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/master.jpg",
+          "bytes": 9666971,
+          "sha256": "0142f1164fe5b6983bb190fddf39112559f824e0f539c7ef93c257830b6072d3"
+        }
+      },
+      {
+        "label": "Sunset",
+        "time": "18:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-christmas-cabin/previews/04.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/sunset.jpg",
+          "bytes": 9689724,
+          "sha256": "1a4051d876025e730f2b95252046b6c64b3ae2fc333ce6d8c556453854ecc156"
+        }
+      },
+      {
+        "label": "Blue hour",
+        "time": "20:00:00",
+        "light": false,
+        "dark": false,
+        "preview": "wallpapers/winter-christmas-cabin/previews/05.webp",
+        "original": {
+          "url": "wallpapers/winter-christmas-cabin/originals/blue-hour.jpg",
+          "bytes": 9484538,
+          "sha256": "d10c6c8fd7d3a6e81f544e2df1ebe5321baee19ec6c357ed51d944ba7ef450c6"
+        }
+      }
+    ],
+    "heic": {
+      "url": "wallpapers/winter-christmas-cabin/winter-christmas-cabin.heic",
+      "bytes": 88448868,
+      "sha256": "e54bb2f9fedfce32cd8c529655cc41e1d053c1dd827166302c0ecd979557a616"
+    }
   }
 ]
